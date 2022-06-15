@@ -1,0 +1,12 @@
+html
+    head 
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    body
+        h2 Home page
+        if books 
+            each b in books 
+                h4 Titolo: #{b.titolo}
+                p Autore: #{b.autore}
+                p Pubblicato il: #{b.data_pubblicazione}
+        else 
+            h4 Nessun libro presente nell'archivio
