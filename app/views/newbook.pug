@@ -1,0 +1,13 @@
+html
+    head 
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    body
+
+    form(action="", method="POST")
+        input(type="text", name="title", placeholder="Title")
+        input(type="text", name="author", placeholder="Author")
+        input(type="date", name="pubdate")
+        input(type="submit", value="Add new book")
+    if msg 
+        p #{msg}
+    a(href="/") Go Back 
