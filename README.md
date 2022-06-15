@@ -1,2 +1,3 @@
-## Project Idea
-Building a book directory is one of the classic Node.js project ideas. The command GET retrieves all the books, POST adds a new book, PUT updates an old book, and DELETE removes a book. This is an essential project for learning how the REST API functionality of Node.js works. It’s one of the first projects you should get started with — especially if you’ve never worked with REST API before. 
+## Project Idea 
+Creare un inventario di libri, tramite richiesta GET sarà possibile recuperare tutti i libri esistenti, tramite richiesta POST sarà possibile aggiungere un nuovo libro, tramite richiesta PUT sarà possibile aggiornare un libro già esistente, tramite richiesta DELETE sarà possibile rimuovere un libro. 
+L'obiettivo è sviluppare tramite Express.js delle API che permettano di utilizzare queste funzionalità base tramite un database MySQL.
