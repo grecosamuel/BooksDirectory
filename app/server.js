@@ -2,7 +2,9 @@ const express = require("express");
 const path = require("path");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
-const dayjs = require("dayjs")
+const dayjs = require("dayjs");
+
+
 // Express Config
 const app = express();
 const PORT = 3000;
@@ -31,7 +33,7 @@ async function getAllBooks(){
             return resolve(result);
         });
     });
-}
+};
 
 async function addNewBook(title, author, pubdate){
     return new Promise( (resolve, reject) => {
@@ -40,7 +42,16 @@ async function addNewBook(title, author, pubdate){
             if (result.affectedRows > 0) return resolve(1);
         });
     });
-}
+};
+
+async function getById(id){
+    return new Promise( (resolve, reject) => {
+        db.query("SELECT * FROM book WHERE id=?", [id], (err, result, fields) => {
+            if (err) throw err;
+            return resolve(result);
+        });
+    });
+};
 
 // Routes
 app.get("/", async (req, res) => {
@@ -67,7 +78,12 @@ app.post("/newbook", async (req, res) => {
     }
     else res.render("newbook", {msg: "Error!"});
 
-})
+});
+
+app.get("/updatebook/:id", async (req, res) => {
+    let book = await getById(req.params.id);
+    res.render("updatebook", {book: book[0]});
+});
 
 
 // Start Server
