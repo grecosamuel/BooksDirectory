@@ -1,0 +1,9 @@
+html
+    head 
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    body
+    if book
+        form(action="", method="PUT")
+            input(type="text", name="title", value=''+book.titolo)
+            input(type="text", name="author", value=''+book.autore)
+            input(type="date", name="pubdate")
