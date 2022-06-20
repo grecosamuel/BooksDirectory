@@ -1,13 +1,20 @@
 html
     head 
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        link(rel="stylesheet", type="text/css", href="style/home.css")
     body
-        h2 Home page
-        if books.length > 0 
-            each b in books 
-                h4 Titolo: #{b.titolo}
-                p Autore: #{b.autore}
-                p Pubblicato il: #{b.data_pubblicazione}
-        else 
-            h4 Nessun libro presente nell'archivio
-        a(href="/newbook") Add new book
+        .home-sec
+            h2 Home page
+        .home-content
+            if books.length > 0 
+                .book-list
+                    each b in books
+                        .book-card 
+                            h2 #{b.titolo}
+                            p  #{b.autore}
+                            p  #{b.data_pubblicazione}
+                            button
+                                a(href="#") Edit
+            else 
+                h4 Nessun libro presente nell'archivio
+            a(href="/newbook") Add new book
