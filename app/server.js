@@ -11,6 +11,7 @@ const PORT = 3000;
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "/views"));
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.static("public"))
 
 // MySQL Connection
 const db = mysql.createConnection({
@@ -43,6 +44,15 @@ async function addNewBook(title, author, pubdate){
         });
     });
 };
+
+async function updateBook(title, author, pubdate, id){
+    return new Promise( (resolve, reject) => {
+        db.query("UPDATE book SET titolo=?, autore=?, data_pubblicazione=? WHERE id=?", [title, author, pubdate, id], (err, result) => {
+            if (err) throw err;
+            return resolve(1);
+        })
+    });
+}
 
 async function getById(id){
     return new Promise( (resolve, reject) => {
@@ -82,7 +92,24 @@ app.post("/newbook", async (req, res) => {
 
 app.get("/updatebook/:id", async (req, res) => {
     let book = await getById(req.params.id);
-    res.render("updatebook", {book: book[0]});
+    book = book[0];
+    book.data_pubblicazione = dayjs(book.data_pubblicazione).format("YYYY-MM-DD");
+    res.render("updatebook", {book: book});
+});
+
+app.put("/updatebook/:id", async (req, res) => {
+    let title = req.body.title;
+    let author = req.body.author;
+    let pubdate = req.body.pubdate;
+    let { id } = req.params;
+
+    let info = await updateBook(title, author, pubdate, id);
+    console.log(info)
+    if (info === 1){
+        res.render("updatebook", {msg: "Book updated!"});
+    }
+    else res.render("updatebook", {msg: "Error"});
+
 });
 
 
