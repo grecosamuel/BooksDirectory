@@ -52,6 +52,28 @@ body {
 }
 
 
+.book-card .editButton {
+	background-color:transparent;
+	border-radius:8px;
+	border:2px solid #f5f6f5;
+	display:inline-block;
+	cursor:pointer;
+	color:#000;
+	font-family:Arial;
+	font-size:14px;
+	padding:8px 12px;
+	text-decoration:none;
+}
+.book-card .editButton:hover {
+	background-color:transparent;
+    border: 2px solid rgb(255, 255, 255);
+    font-size:15px;
+}
+.book-card .editButton:active {
+	position:relative;
+	top:1px;
+}
+
 @media only screen and (max-width: 600px) {
 
     .book-card {
