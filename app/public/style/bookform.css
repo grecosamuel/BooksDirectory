@@ -1,0 +1,25 @@
+.bookform {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bookform input {
+    width: 25%;
+    margin: 5px;
+    height: 50px;
+}
+
+
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .bookform input {
+        width: 75%;
+    }
+}
