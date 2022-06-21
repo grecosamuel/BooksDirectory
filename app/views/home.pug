@@ -4,7 +4,7 @@ html
         link(rel="stylesheet", type="text/css", href="style/home.css")
     body
         .home-sec
-            h2 Home page
+            h2 Books Directory
         .home-content
             if books.length > 0 
                 .book-list
@@ -13,8 +13,7 @@ html
                             h2 #{b.titolo}
                             p  #{b.autore}
                             p  #{b.data_pubblicazione}
-                            button
-                                a(href="#") Edit
+                            a(href="/updatebook/"+b.id, class="editButton") Edit
             else 
                 h4 Nessun libro presente nell'archivio
             a(href="/newbook") Add new book
