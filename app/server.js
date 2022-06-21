@@ -3,7 +3,7 @@ const path = require("path");
 const mysql = require("mysql");
 const bodyParser = require("body-parser");
 const dayjs = require("dayjs");
-
+const methodOverride = require("method-override");
 
 // Express Config
 const app = express();
@@ -12,6 +12,7 @@ app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "/views"));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(express.static("public"))
+app.use(methodOverride("_method"));
 
 // MySQL Connection
 const db = mysql.createConnection({
@@ -54,6 +55,15 @@ async function updateBook(title, author, pubdate, id){
     });
 }
 
+async function deleteBook(id){
+    return new Promise( (resolve, reject) => {
+        db.query("DELETE FROM book WHERE id=?", [id], (err, result, fields) => {
+            if (err) throw err;
+            return resolve(1);
+        })
+    });
+}
+
 async function getById(id){
     return new Promise( (resolve, reject) => {
         db.query("SELECT * FROM book WHERE id=?", [id], (err, result, fields) => {
@@ -69,12 +79,12 @@ app.get("/", async (req, res) => {
     books.forEach(item => {
         item.data_pubblicazione = dayjs(item.data_pubblicazione).format("DD-MM-YYYY");
     })
-    res.render('home', {books: books});
+    res.render('home', {pagetitle: "Books Directory", books: books});
 });
 
 
 app.get("/newbook", async (req, res) => {
-    res.render("newbook");
+    res.render("newbook", {pagetitle: "Add book"});
 });
 
 app.post("/newbook", async (req, res) => {
@@ -84,9 +94,9 @@ app.post("/newbook", async (req, res) => {
 
     let info = await addNewBook(title, author, pubdate);
     if (info === 1){
-        res.render("newbook", {msg: "Book inserted!"});
+        res.render("newbook", {pagetitle: "Add book", msg: "Book inserted!"});
     }
-    else res.render("newbook", {msg: "Error!"});
+    else res.render("newbook", {pagetitle: "Add book", msg: "Error!"});
 
 });
 
@@ -94,7 +104,7 @@ app.get("/updatebook/:id", async (req, res) => {
     let book = await getById(req.params.id);
     book = book[0];
     book.data_pubblicazione = dayjs(book.data_pubblicazione).format("YYYY-MM-DD");
-    res.render("updatebook", {book: book});
+    res.render("updatebook", {pagetitle: "Update book", book: book});
 });
 
 app.put("/updatebook/:id", async (req, res) => {
@@ -104,14 +114,19 @@ app.put("/updatebook/:id", async (req, res) => {
     let { id } = req.params;
 
     let info = await updateBook(title, author, pubdate, id);
-    console.log(info)
     if (info === 1){
-        res.render("updatebook", {msg: "Book updated!"});
+        res.render("updatebook", {pagetitle: "Update book", msg: "Book updated!"});
     }
-    else res.render("updatebook", {msg: "Error"});
+    else res.render("updatebook", {pagetitle: "Update book", msg: "Error"});
 
 });
 
+app.delete("/deletebook/:id", async (req, res) =>{
+    let { id } = req.params;
+
+    let info = await deleteBook(id);
+    res.redirect("/");
+});
 
 // Start Server
 app.listen(PORT, () => {
