@@ -2,9 +2,9 @@ html
     head 
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(rel="stylesheet", type="text/css", href="style/home.css")
+        link(rel="stylesheet", type="text/css", href="style/header.css")
     body
-        .home-sec
-            h2 Books Directory
+        include header.pug
         .home-content
             if books.length > 0 
                 .book-list
@@ -13,7 +13,13 @@ html
                             h2 #{b.titolo}
                             p  #{b.autore}
                             p  #{b.data_pubblicazione}
-                            a(href="/updatebook/"+b.id, class="editButton") Edit
-            else 
-                h4 Nessun libro presente nell'archivio
-            a(href="/newbook") Add new book
+                            form(action="/updatebook/"+b.id, method="GET")
+                                button(type="submit", class="editButton") Edit
+                            form(action="/deletebook/"+b.id+"?_method=DELETE", method="POST", onclick="return confirm('Are you sure?');")
+                                button(type="submit", class="editButton") Delete
+                                    
+            else
+                .booknotfound
+                    h4 Nessun libro presente nell'archivio
+            .addbook
+                a(href="/newbook") Add new book
